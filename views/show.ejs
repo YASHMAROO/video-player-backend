@@ -1,0 +1,26 @@
+
+<%- include ('partials/header1.ejs') %>
+
+<div class="ui main text container">
+    <div class="ui huge header">Videos</div>
+    <div class="ui top attached segment">
+        <div class="ui divided items">
+            <% video.forEach(function(video){ %>
+                <div class="item">
+                    <div class="content">
+                        <a href="/video/<%= video._id%>" class="header"><%=video.title%></a>
+                        <div class="extra">
+                            <a class="ui basic  purple button" href="/video/<%= video._id%>">Play</a>
+                            <a class="ui green basic button" href="/videolist/<%=video._id%>/edit">Edit</a>
+                            <form id="delete" action="/videolist/<%=video._id%>?_method=DELETE" method="POST">
+                                <button class="ui red basic button">Delete</button>
+                            </form>
+                        </div>
+                    </div>   
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+<%- include ('partials/footer.ejs') %>

@@ -1,0 +1,18 @@
+<%- include ('partials/header1.ejs') %>
+
+<div class="ui main text container segment">
+    <div class="ui huge header">Edit Video</div>
+    <form class="ui form" action="/videolist/<%=video._id%>?_method=PUT" method="POST">
+        <div class="field">
+            <label>Title</label>
+            <input type="text" name="video[title]" value="<%=video.title%>">
+        </div>
+        <div class="field">
+            <label>Address/Path</label>
+            <input type="text" name="video[address]"  value="<%=video.address%>">
+        </div>
+        <input class="ui violet basic button" type="submit">
+    </form>
+</div>
+
+<%- include ('partials/footer.ejs') %>

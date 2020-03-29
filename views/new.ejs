@@ -1,0 +1,21 @@
+<%- include ('partials/header1.ejs') %>
+
+<div class="ui main text container segment">
+    <div class="ui huge header">New Video</div>
+    <form class="ui form" action="/videolist" method="POST">
+        <!-- <div class="field">
+            <label>Upload file</label>
+            <input type="text" name="video[title]" placeholder="Title">
+        </div>
+        <div class="field">
+            <label>Address/Path</label>
+            <input type="text" name="video[address]" placeholder="Ex: /videos/video.mp4">
+        </div> -->
+        <div class="field">
+            <input type="file" accept="video/*">
+        </div>
+        <input class="ui violet basic button" type="submit">
+    </form>
+</div>
+
+<%- include ('partials/footer.ejs') %>
