@@ -5,7 +5,6 @@ bodyParser=require("body-parser");
 methodOverride=require("method-override");
 multer=require("multer");
 Video=require("./model/vid");
-
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, './videos/');
