@@ -2,7 +2,7 @@
 
 <div class="ui main text container segment">
     <div class="ui huge header">New Video</div>
-    <form class="ui form" action="/videolist" method="POST">
+    <form class="ui form" action="/videolist" enctype="multipart/form-data" method="POST">
         <!-- <div class="field">
             <label>Upload file</label>
             <input type="text" name="video[title]" placeholder="Title">
@@ -12,7 +12,7 @@
             <input type="text" name="video[address]" placeholder="Ex: /videos/video.mp4">
         </div> -->
         <div class="field">
-            <input type="file" accept="video/*">
+            <input type="file" accept="video/*" name="video123">
         </div>
         <input class="ui violet basic button" type="submit">
     </form>

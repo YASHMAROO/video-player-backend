@@ -4,16 +4,41 @@ mongoose=require("mongoose");
 bodyParser=require("body-parser");
 methodOverride=require("method-override");
 multer=require("multer");
-upload=multer({dest:'videos/'})
 Video=require("./model/vid");
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './videos/');
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname);
+    }
+  });
+
+var filefilter=function(re,file,cb){
+    if(file.mimetye === 'video/mp4')
+    {
+        cb(null,true);
+    }
+    else
+    {
+        cb(null,false);
+    }
+}
+
+var upload = multer({ storage: storage },{filefilter:filefilter});
 
 mongoose.connect("mongodb://localhost/video_app",{useNewUrlParser:true});
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 app.use(express.static("public"));
+app.use("/videos",express.static("videos"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
+
+   
+  
 
 app.get("/",function(req,res){
     res.redirect("/videolist");
@@ -49,18 +74,22 @@ app.get("/videolist/new",function(req,res){
     res.render("new.ejs");
 });
 
-app.post("/videolist",upload.single('productimage'),function(req,res){
-    console.log(req.file);
-    Video.create(req.body.video,function(err,video){
+app.post("/videolist",upload.single('video123'),function(req,res){
+    const file = req.file;
+    console.log(file);
+    var vid=new Video();
+    vid.title=file.originalname;
+    vid.address=file.path;
+    Video.create(vid,function(err,video){
         if(err)
         {
-            console.log(err);
+            res.render("new.ejs");
         }
         else
         {
             res.redirect("/videolist");
         }
-    });
+    })
 });
 
 app.get("/videolist/:id/edit",function(req,res){
