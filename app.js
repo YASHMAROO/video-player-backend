@@ -73,11 +73,11 @@ app.get("/videolist/new",function(req,res){
     res.render("new.ejs");
 });
 
-app.post("/videolist",upload.single('video123'),function(req,res){
+app.post("/videolist",upload.single('address'),function(req,res){
     const file = req.file;
     console.log(file);
     var vid=new Video();
-    vid.title=file.originalname;
+    vid.title=req.body.title;
     vid.address=file.path;
     Video.create(vid,function(err,video){
         if(err)
