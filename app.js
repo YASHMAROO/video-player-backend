@@ -5,14 +5,18 @@ bodyParser=require("body-parser");
 methodOverride=require("method-override");
 multer=require("multer");
 Video=require("./model/vid");
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './videos/');
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname);
-    }
-  });
+path=require("path");
+
+
+mongoose.connect("mongodb://localhost/video_app",{useNewUrlParser:true});
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
+app.use(express.static("public"));
+app.use(express.static("videos"));
+app.use(express.static("public/videos"));
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(methodOverride("_method"));
 
 var filefilter=function(re,file,cb){
     if(file.mimetye === 'video/mp4')
@@ -24,17 +28,17 @@ var filefilter=function(re,file,cb){
         cb(null,false);
     }
 }
-
+var storage = multer.diskStorage({
+    destination: './public/videos/',
+  filename: function(req, file, cb){
+    cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  },
+    filename: function (req, file, cb) {
+        cb(null, new Date().toISOString().replace(/:/g, '-') +'-'+ file.originalname);
+    }
+  })
+   
 var upload = multer({ storage: storage },{filefilter:filefilter});
-
-mongoose.connect("mongodb://localhost/video_app",{useNewUrlParser:true});
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-mongoose.set('useUnifiedTopology', true);
-app.use(express.static("public"));
-app.use("/videos",express.static("videos"));
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(methodOverride("_method"));
 
    
   
